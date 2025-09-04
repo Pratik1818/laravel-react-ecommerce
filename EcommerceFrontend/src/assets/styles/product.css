@@ -1,0 +1,7 @@
+/* src/index.css or a separate CSS file */
+.product-img {
+  height: 200px;        /* fixed height */
+  object-fit: cover;    /* crop/scale image while keeping aspect ratio */
+  width: 100%;          /* take full width of card */
+  border-radius: 8px;   /* optional, smooth corners */
+}
