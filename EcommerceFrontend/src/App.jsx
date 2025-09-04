@@ -1,22 +1,26 @@
-import React from "react";
-import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
-import Banner from "./components/home/Banner.jsx";
-import FeaturedCategories from "./components/home/FeaturedCategories";
-import TrendingProducts from "./components/home/TrendingProducts";
+// src/App.jsx
 
-function App() {
+import { BrowserRouter } from 'react-router-dom';
+import AppRoutes from './routes/AppRoutes';
+
+// Layout Components
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+
+
+export default function App() {
   return (
-    <>
+    <BrowserRouter>
+      {/* Header - visible on all pages */}
       <Header />
-      <main>
-        <Banner />
-        <FeaturedCategories />
-        <TrendingProducts />
+
+      {/* Main content area where all routes render */}
+      <main className="flex-grow-1">
+        <AppRoutes />
       </main>
+
+      {/* Footer - visible on all pages */}
       <Footer />
-    </>
+    </BrowserRouter>
   );
 }
-
-export default App;
