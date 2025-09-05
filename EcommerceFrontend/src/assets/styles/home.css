@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 /* Custom utilities not in Bootstrap */
 .w-80 {
   width: 86%;
@@ -10,7 +10,7 @@
 
 .object-fit-cover {
   object-fit: cover;
-=======
+}
 .banner {
   background: url('/images/banner.jpg') no-repeat center center/cover;
   height: 400px;
@@ -25,5 +25,5 @@
 .banner-content p {
   font-size: 18px;
   margin: 15px 0;
->>>>>>> 1edfe66d471ee377ef6b265a400d0ff48d372d38
+
 }
