@@ -1,5 +1,5 @@
 import React from "react";
-import "../../assets/styles/category.css";
+import "../../assets/styles/card.css"; // use the same CSS as products
 
 import electronicsImg from "../../assets/images/categories/electronics.jpg";
 import fashionImg from "../../assets/images/categories/fashion.jpg";
@@ -10,37 +10,37 @@ function FeaturedCategories() {
   return (
     <section className="container my-5">
       <h2 className="text-center mb-4">Featured Categories</h2>
-      <div className="row text-center">
-        
+      <div className="row">
+
         {/* Electronics */}
         <div className="col-md-3">
-          <div className="category-card">
-            <img src={electronicsImg} alt="Electronics" className="img-fluid" />
-            <p>Electronics</p>
+          <div className="custom-card">
+            <img src={electronicsImg} alt="Electronics" className="custom-img" />
+            <p className="mt-2 fw-bold">Electronics</p>
           </div>
         </div>
 
         {/* Fashion */}
         <div className="col-md-3">
-          <div className="category-card">
-            <img src={fashionImg} alt="Fashion" className="img-fluid" />
-            <p>Fashion</p>
+          <div className="custom-card">
+            <img src={fashionImg} alt="Fashion" className="custom-img" />
+            <p className="mt-2 fw-bold">Fashion</p>
           </div>
         </div>
 
         {/* Home & Kitchen */}
         <div className="col-md-3">
-          <div className="category-card">
-            <img src={homeKitchenImg} alt="Home & Kitchen" className="img-fluid" />
-            <p>Home & Kitchen</p>
+          <div className="custom-card">
+            <img src={homeKitchenImg} alt="Home & Kitchen" className="custom-img" />
+            <p className="mt-2 fw-bold">Home & Kitchen</p>
           </div>
         </div>
 
         {/* Beauty */}
         <div className="col-md-3">
-          <div className="category-card">
-            <img src={beautyImg} alt="Beauty" className="img-fluid" />
-            <p>Beauty</p>
+          <div className="custom-card">
+            <img src={beautyImg} alt="Beauty" className="custom-img" />
+            <p className="mt-2 fw-bold">Beauty</p>
           </div>
         </div>
 
