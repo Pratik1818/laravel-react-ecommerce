@@ -91,36 +91,58 @@ const ProductInfoSection = () => {
       </div>
 
       {/* Modal for Enlarged Image */}
-      {isModalOpen && (
-        <div
-          className="modal fade show d-block"
-          tabIndex="-1"
-          role="dialog"
-          style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+     {isModalOpen && (
+  <div
+    className="modal fade show d-block"
+    tabIndex="-1"
+    role="dialog"
+    style={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+    onClick={() => setIsModalOpen(false)}
+  >
+    <div
+      className="modal-dialog modal-dialog-centered modal-lg"
+      role="document"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="modal-content">
+        {/* Close Button at Top Right */}
+        <button
+          type="button"
+          className="btn-close position-absolute end-0 m-3 z-1"
+          aria-label="Close"
           onClick={() => setIsModalOpen(false)}
+        ></button>
+
+        {/* Fixed Size Image Container */}
+        <div
+          className="modal-body d-flex align-items-center justify-content-center p-0"
+          style={{
+            height: "500px",  // fixed height
+            backgroundColor: "#f8f9fa",
+          }}
         >
-          <div
-            className="modal-dialog modal-dialog-centered modal-lg"
-            role="document"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="modal-content">
-              <div className="modal-body text-center p-0">
-                <img src={activeImg} alt="Zoomed" className="img-fluid" />
-              </div>
-              <div className="modal-footer justify-content-between px-3 py-2">
-                <span className="fw-semibold">{`Preview: ${activeImg.split("/").pop()}`}</span>
-                <button
-                  type="button"
-                  className="btn-close"
-                  aria-label="Close"
-                  onClick={() => setIsModalOpen(false)}
-                ></button>
-              </div>
-            </div>
-          </div>
+          <img
+            src={activeImg}
+            alt="Zoomed"
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain",
+            }}
+          />
         </div>
-      )}
+
+        {/* Footer with Filename */}
+        <div className="modal-footer justify-content-start px-3 py-2">
+          <span className="fw-semibold">
+            {`Preview: ${activeImg.split("/").pop()}`}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
 };

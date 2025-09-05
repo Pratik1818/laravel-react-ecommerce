@@ -1,39 +1,39 @@
 import React from "react";
-import "../../assets/styles/product.css";
+import "../../assets/styles/card.css";
 
-// Import the same images
 import handbagsImg from "../../assets/images/products/handbags.jpg";
 import smartwatchImg from "../../assets/images/products/smartwatch.jpg";
 import sneakersImg from "../../assets/images/products/sneakers.jpg";
 import wireless_onImg from "../../assets/images/products/wireless_on.jpg";
 
-const RelatedProducts = () => {
+function RelatedProducts() {
   return (
-    <section className="container mt-5">
+    <section className="container my-5">
       <h2 className="text-center mb-4">Related Products</h2>
-      <div className="row text-center">
+      <div className="row">
+
         {/* Smartwatch */}
         <div className="col-md-3">
-          <div className="card p-3">
-            <img src={smartwatchImg} alt="Smartwatch" className="product-img" />
+          <div className="custom-card">
+            <img src={smartwatchImg} alt="Smartwatch" className="custom-img" />
             <h5 className="mt-3">Smartwatch</h5>
             <p>$199.99</p>
           </div>
         </div>
 
-        {/* Sneakers */}
+        {/* Sneaker */}
         <div className="col-md-3">
-          <div className="card p-3">
-            <img src={sneakersImg} alt="Sneakers" className="product-img" />
+          <div className="custom-card">
+            <img src={sneakersImg} alt="Sneaker" className="custom-img" />
             <h5 className="mt-3">Sneaker</h5>
             <p>$79.99</p>
           </div>
         </div>
 
-        {/* Handbags */}
+        {/* Handbag */}
         <div className="col-md-3">
-          <div className="card p-3">
-            <img src={handbagsImg} alt="Handbags" className="product-img" />
+          <div className="custom-card">
+            <img src={handbagsImg} alt="Handbag" className="custom-img" />
             <h5 className="mt-3">Handbag</h5>
             <p>$129.99</p>
           </div>
@@ -41,15 +41,16 @@ const RelatedProducts = () => {
 
         {/* Wireless On */}
         <div className="col-md-3">
-          <div className="card p-3">
-            <img src={wireless_onImg} alt="Wireless On" className="product-img" />
+          <div className="custom-card">
+            <img src={wireless_onImg} alt="Wireless On" className="custom-img" />
             <h5 className="mt-3">Wireless On</h5>
             <p>$99.99</p>
           </div>
         </div>
+
       </div>
     </section>
   );
-};
+}
 
 export default RelatedProducts;
