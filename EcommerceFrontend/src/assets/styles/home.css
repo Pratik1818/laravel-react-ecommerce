@@ -1,0 +1,12 @@
+/* Custom utilities not in Bootstrap */
+.w-80 {
+  width: 86%;
+}
+
+.vh-80 {
+  height: 50vh;
+}
+
+.object-fit-cover {
+  object-fit: cover;
+}
