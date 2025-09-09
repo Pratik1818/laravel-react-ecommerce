@@ -10,7 +10,7 @@ function Header() {
         <div className="container">
 
           {/* Logo */}
-          <a className="navbar-brand logo fw-bold" href="#">
+          <a className="navbar-brand logo fw-bold " href="#">
             LOGO
           </a>
 
@@ -45,18 +45,18 @@ function Header() {
 
             {/* Right section */}
             <div className="d-flex align-items-center ms-lg-auto mt-2 mt-lg-0">
-              <a href="#" className="btn btn-danger me-2">EN</a>
-              
+              <a href="#" className="btn btn-primary me-2">EN</a>
+
               {/* Login / Register Buttons*/}
-              <Link to="/login" className="btn btn-danger me-2" >Login</Link>
-              <Link to="/register" className="btn btn-danger me-2">Register</Link>
+              <Link to="/login" className="btn btn-primary me-2" >Login</Link>
+              <Link to="/register" className="btn btn-primary me-2">Register</Link>
               {/* Heart Icon */}
               <i className="bi bi-heart mx-2 fs-5"></i>
 
               {/* Cart Icon with badge */}
               <div className="position-relative mx-2">
                 <i className="bi bi-cart-fill fs-5"></i>
-                <span className="badge bg-danger position-absolute top-0 start-100 translate-middle">
+                <span className="badge bg-primary position-absolute top-0 start-100 translate-middle">
                   2
                 </span>
               </div>
