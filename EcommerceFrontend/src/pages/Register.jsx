@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Card } from "react-bootstrap";
-import Header from "../components/layout/Header.jsx";
-import Footer from "../components/layout/Footer.jsx";
+
 function Register() {
   const [form, setForm] = useState({
     name: "",
@@ -21,8 +20,7 @@ function Register() {
   };
 
   return (
-<>
-    <Header />
+
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
       <Card className="p-4 shadow-sm" style={{ width: "350px", borderRadius: "10px" }}>
         <h3 className="mb-4 text-center fw-bold">Register</h3>
@@ -82,8 +80,6 @@ function Register() {
       </Card>
     </div>
     
-    <Footer />
-    </>
   );
 }
 
