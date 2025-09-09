@@ -1,24 +1,74 @@
 import React, { useState } from "react";
 import { Card } from "react-bootstrap";
+import API from "../api/api.jsx"; 
 
 function Register() {
   const [form, setForm] = useState({
-    first_name: "",
-    last_name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     mobile: "",
     password: "",
     confirmPassword: "",
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+
+    // Clear error for this field while typing
+    setErrors({ ...errors, [name]: "" });
   };
 
-  const handleSubmit = (e) => {
+  const validate = () => {
+      const newErrors = {};
+
+      if (!form.firstName.trim()) newErrors.firstName = "First name is required";
+      if (!form.lastName.trim()) newErrors.lastName = "Last name is required";
+
+      if (!form.email.trim()) newErrors.email = "Email is required";
+      else {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; 
+        if (!emailRegex.test(form.email))
+          newErrors.email = "Invalid email address";
+      }
+
+      if (!form.mobile.trim()) newErrors.mobile = "Mobile number is required";
+      else if (!/^\d{10}$/.test(form.mobile))
+        newErrors.mobile = "Mobile number must be 10 digits";
+
+      if (!form.password) newErrors.password = "Password is required";
+      else if (form.password.length < 6)
+        newErrors.password = "Password must be at least 6 characters";
+
+      if (!form.confirmPassword)
+        newErrors.confirmPassword = "Please confirm your password";
+      else if (form.password !== form.confirmPassword)
+        newErrors.confirmPassword = "Passwords do not match";
+
+      return newErrors;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Register Data:", form);
-    // TODO: call your backend API
+
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    try {
+  
+      const response = await API.post("/register", form);
+      console.log("Registration successful:", response.data);
+      alert("Registration Successful!");
+    } catch (error) {
+      console.error("Registration error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Registration failed. Please try again.");
+    }
   };
 
   return (
@@ -45,45 +95,49 @@ function Register() {
           <div className="form-floating mb-3">
             <input
               type="text"
-              id="first_name"
-              name="first_name"
-              className="form-control"
+              id="firstName"
+              name="firstName"
+              className={`form-control ${errors.firstName ? "is-invalid" : ""}`}
               placeholder="First Name"
-              value={form.first_name}
+              value={form.firstName}
               onChange={handleChange}
-              required
             />
-            <label htmlFor="first_name">First Name</label>
+            <label htmlFor="firstName">First Name</label>
+            {errors.firstName && (
+              <div className="invalid-feedback">{errors.firstName}</div>
+            )}
           </div>
 
           {/* Last Name */}
           <div className="form-floating mb-3">
             <input
               type="text"
-              id="last_name"
-              name="last_name"
-              className="form-control"
+              id="lastName"
+              name="lastName"
+              className={`form-control ${errors.lastName ? "is-invalid" : ""}`}
               placeholder="Last Name"
-              value={form.last_name}
+              value={form.lastName}
               onChange={handleChange}
-              required
             />
-            <label htmlFor="last_name">Last Name</label>
+            <label htmlFor="lastName">Last Name</label>
+            {errors.lastName && (
+              <div className="invalid-feedback">{errors.lastName}</div>
+            )}
           </div>
 
           {/* Email */}
           <div className="form-floating mb-3">
             <input
-              type="email"
+              type="text"
               id="email"
               name="email"
-              className="form-control"
+              className={`form-control ${errors.email ? "is-invalid" : ""}`}
               placeholder="Email"
               value={form.email}
               onChange={handleChange}
-              required
             />
             <label htmlFor="email">Email</label>
+            {errors.email && <div className="invalid-feedback">{errors.email}</div>}
           </div>
 
           {/* Mobile */}
@@ -92,14 +146,13 @@ function Register() {
               type="tel"
               id="mobile"
               name="mobile"
-              className="form-control"
+              className={`form-control ${errors.mobile ? "is-invalid" : ""}`}
               placeholder="Mobile Number"
-              pattern="[0-9]{10}"
               value={form.mobile}
               onChange={handleChange}
-              required
             />
             <label htmlFor="mobile">Mobile Number</label>
+            {errors.mobile && <div className="invalid-feedback">{errors.mobile}</div>}
           </div>
 
           {/* Password */}
@@ -108,13 +161,15 @@ function Register() {
               type="password"
               id="password"
               name="password"
-              className="form-control"
+              className={`form-control ${errors.password ? "is-invalid" : ""}`}
               placeholder="Password"
               value={form.password}
               onChange={handleChange}
-              required
             />
             <label htmlFor="password">Password</label>
+            {errors.password && (
+              <div className="invalid-feedback">{errors.password}</div>
+            )}
           </div>
 
           {/* Confirm Password */}
@@ -123,13 +178,15 @@ function Register() {
               type="password"
               id="confirmPassword"
               name="confirmPassword"
-              className="form-control"
+              className={`form-control ${errors.confirmPassword ? "is-invalid" : ""}`}
               placeholder="Confirm Password"
               value={form.confirmPassword}
               onChange={handleChange}
-              required
             />
             <label htmlFor="confirmPassword">Confirm Password</label>
+            {errors.confirmPassword && (
+              <div className="invalid-feedback">{errors.confirmPassword}</div>
+            )}
           </div>
 
           {/* Submit */}
