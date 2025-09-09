@@ -10,9 +10,7 @@ function Header() {
         <div className="container">
 
           {/* Logo */}
-          <a className="navbar-brand logo fw-bold " href="#">
-            LOGO
-          </a>
+          <Link to="/" className="navbar-brand logo fw-bold">LOGO</Link>
 
           {/* Toggler */}
           <button
@@ -45,11 +43,12 @@ function Header() {
 
             {/* Right section */}
             <div className="d-flex align-items-center ms-lg-auto mt-2 mt-lg-0">
-              <a href="#" className="btn btn-primary me-2">EN</a>
+              
+              <a href="#" className="btn btn-dark me-2">EN</a>
 
               {/* Login / Register Buttons*/}
-              <Link to="/login" className="btn btn-primary me-2" >Login</Link>
-              <Link to="/register" className="btn btn-primary me-2">Register</Link>
+              <Link to="/login" className="btn btn-dark me-2" >Login</Link>
+              <Link to="/register" className="btn btn-dark me-2">Register</Link>
               {/* Heart Icon */}
               <i className="bi bi-heart mx-2 fs-5"></i>
 

@@ -3,9 +3,10 @@ import React from "react";
 import { Carousel, Button } from "react-bootstrap";
 import "../../assets/styles/home.css";
 
-import Banner1 from "../../assets/images/banner/Banner1.jpg"; 
-import Banner2 from "../../assets/images/banner/Banner2.jpg";
-import Banner3 from "../../assets/images/banner/Banner3.jpg";
+import Banner1 from "../../assets/images/banner/Banner2.jpg";
+import Banner2 from "../../assets/images/banner/Banner3.jpg";
+import Banner3 from "../../assets/images/banner/Banner1.jpg"; 
+
 
 function Banner() {
   return (
