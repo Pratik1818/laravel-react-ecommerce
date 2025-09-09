@@ -1,0 +1,35 @@
+/* src/components/LoginForm.css */
+
+.login-card {
+  background-color: #fff;
+  border-radius: 12px;
+  border: 1px solid #f0f0f0;
+}
+
+.login-title {
+  font-weight: 700;
+}
+
+.custom-input {
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  padding: 12px;
+  font-size: 1rem;
+}
+
+.login-button {
+  background-color: #f04d3a;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+.forgot-link {
+  color: #000;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
