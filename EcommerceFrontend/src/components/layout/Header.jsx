@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../../assets/styles/header.css";
 
 
@@ -45,8 +46,10 @@ function Header() {
             {/* Right section */}
             <div className="d-flex align-items-center ms-lg-auto mt-2 mt-lg-0">
               <a href="#" className="btn btn-danger me-2">EN</a>
-              <a href="#" className="btn btn-danger me-2">Login / Register</a>
-
+              
+              {/* Login / Register Buttons*/}
+              <Link to="/login" className="btn btn-danger me-2" >Login</Link>
+              <Link to="/register" className="btn btn-danger me-2">Register</Link>
               {/* Heart Icon */}
               <i className="bi bi-heart mx-2 fs-5"></i>
 
