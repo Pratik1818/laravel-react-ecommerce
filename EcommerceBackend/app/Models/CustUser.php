@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class CustUser extends Authenticatable
 {
-    use HasFactory;
+    use HasApiTokens, Notifiable;
 
-    protected $table = 'cust_users'; // ✅ table name
+    protected $table = 'cust_users'; // explicitly define table if different
 
     protected $fillable = [
         'first_name',
@@ -21,5 +22,6 @@ class CustUser extends Authenticatable
 
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 }
