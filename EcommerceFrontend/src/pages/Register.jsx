@@ -54,22 +54,52 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Run validations
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
+    // Collect form data
+    const formData = new FormData(e.target);
+
+    // For Laravel password_confirmation
+    formData.set("password_confirmation", formData.get("confirmPassword"));
+    formData.delete("confirmPassword");
+
     try {
-  
-      const response = await API.post("/register", form);
+      const response = await API.post("/register", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
       console.log("Registration successful:", response.data);
+
+      // Save token if backend returns it
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
+
       alert("Registration Successful!");
     } catch (error) {
-      console.error("Registration error:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "Registration failed. Please try again.");
+        if (error.response?.status === 422) {
+        // Laravel returns errors as { fieldName: [array of messages] }
+        const backendErrors = error.response.data.errors;
+const formattedErrors = {};
+for (const key in backendErrors) {
+  if (backendErrors.hasOwnProperty(key)) {
+    formattedErrors[key] = backendErrors[key][0]; // take the first message
+  }
+}
+setErrors(formattedErrors);
+      } else {
+        console.error("Registration error:", error.response?.data || error.message);
+        alert(error.response?.data?.message || "Registration failed. Please try again.");
+      }
     }
-  };
+};
+
+
 
   return (
     <div
