@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import "../../assets/styles/header.css";
 import { isLoggedIn, logout } from "../../util/auth"; // import helper
+import CartIcon from "../cart/CartIcon";
 
 
 function Header() {
@@ -52,13 +53,7 @@ function Header() {
               {/* Heart Icon */}
               {/* <i className="bi bi-heart mx-2 fs-5"></i> */}
 
-              {/* Cart Icon with badge */}
-              <div className="position-relative mx-2 me-3">
-                <i className="bi bi-cart-fill fs-5"></i>
-                <span className="badge bg-primary position-absolute top-0 start-100 translate-middle">
-                  2
-                </span>
-              </div>
+              <CartIcon />
               <a href="#" className="btn btn-dark me-2">EN</a>
 
                {/* If NOT logged in → show Login + Register */}
