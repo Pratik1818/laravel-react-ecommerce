@@ -1,12 +1,15 @@
 // src/components/Login.js
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Form, Button, Container, Card, Alert } from "react-bootstrap";
 import API from "../api/api.jsx"; // your preconfigured axios
 import { useNavigate, Link } from "react-router-dom";
 import "../assets/styles/login.css";
+import { AuthContext } from "../context/AuthContext"; // import context
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // get login function from context
+
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [serverError, setServerError] = useState("");
@@ -37,9 +40,10 @@ const Login = () => {
       // send login request
       const res = await API.post("/login", formData);
 
-      // store token in localStorage for axios interceptor
-      localStorage.setItem("token", res.data.token);
+      // call context login → saves user, token, expiry
+      login(res.data.user, res.data.token);
 
+      // redirect
       navigate("/");
     } catch (err) {
       setServerError(

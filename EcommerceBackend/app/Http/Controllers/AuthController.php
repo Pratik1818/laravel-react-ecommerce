@@ -25,22 +25,31 @@ class AuthController extends Controller
     }
 
     public function login(LoginRequest $request)
-    {
-        $user = CustUser::where('email', $request->email)->first();
+{
+    $user = CustUser::where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'message' => 'Invalid email or password.'
-            ], 401);
-        }
-
-        // Issue Sanctum token
-        $token = $user->createToken('auth_token')->plainTextToken;
-
+    if (! $user || ! Hash::check($request->password, $user->password)) {
         return response()->json([
-            'message' => 'Login successful',
-            'user'    => $user,
-            'token'   => $token,
-        ]);
+            'message' => 'Invalid email or password.'
+        ], 401);
     }
+
+    // Issue Sanctum token
+    $token = $user->createToken('auth_token')->plainTextToken;
+
+    // Prepare clean user data
+    $userData = [
+        'id'         => $user->id,
+        'first_name' => $user->first_name,
+        'last_name'  => $user->last_name,
+        'email'      => $user->email,
+    ];
+
+    return response()->json([
+        'message' => 'Login successful',
+        'user'    => $userData,
+        'token'   => $token,
+    ]);
+}
+
 }
