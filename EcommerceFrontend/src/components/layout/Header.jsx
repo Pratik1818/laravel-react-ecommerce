@@ -1,9 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../../assets/styles/header.css";
+import { isLoggedIn, logout } from "../../util/auth"; // import helper
 
 
 function Header() {
+
+  const loggedIn = isLoggedIn();
+
   return (
     <header className="header shadow-sm">
       <nav className="navbar navbar-expand-lg navbar-light bg-white">
@@ -46,9 +50,18 @@ function Header() {
               
               <a href="#" className="btn btn-dark me-2">EN</a>
 
-              {/* Login / Register Buttons*/}
-              <Link to="/login" className="btn btn-dark me-2" >Login</Link>
-              <Link to="/register" className="btn btn-dark me-2">Register</Link>
+               {/* Conditionally show Login/Register OR Logout */}
+              {!loggedIn ? (
+                <>
+                  <Link to="/login" className="btn btn-dark me-2">Login</Link>
+                  <Link to="/register" className="btn btn-dark me-2">Register</Link>
+                </>
+              ) : (
+                <button onClick={logout} className="btn btn-danger me-2">
+                  Logout
+                </button>
+              )}
+
               {/* Heart Icon */}
               <i className="bi bi-heart mx-2 fs-5"></i>
 
