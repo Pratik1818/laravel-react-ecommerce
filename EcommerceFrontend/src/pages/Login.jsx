@@ -40,7 +40,7 @@ const Login = () => {
       // store token in localStorage for axios interceptor
       localStorage.setItem("token", res.data.token);
 
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       setServerError(
         err.response?.data?.message || "Login failed, please try again"
