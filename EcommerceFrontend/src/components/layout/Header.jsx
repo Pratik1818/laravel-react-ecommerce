@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 import "../../assets/styles/header.css";
 import { isLoggedIn, logout } from "../../util/auth"; // import helper
 
@@ -33,47 +34,97 @@ function Header() {
           <div className="collapse navbar-collapse" id="navbarNav">
 
             {/* Search bar */}
-<div className="d-flex flex-grow-1 justify-content-center my-2 my-lg-0">
-  <div className="search-container">
-    <input
-      type="text"
-      className="search-input form-control"
-      placeholder="Search"
-    />
-    <i className="bi bi-search search-icon"></i>
-  </div>
-</div>
+            <div className="d-flex flex-grow-1 justify-content-center my-2 my-lg-0">
+              <div className="search-container">
+                <input
+                  type="text"
+                  className="search-input form-control"
+                  placeholder="Search"
+                />
+                <i className="bi bi-search search-icon"></i>
+              </div>
+            </div>
 
 
             {/* Right section */}
             <div className="d-flex align-items-center ms-lg-auto mt-2 mt-lg-0">
-              
-              <a href="#" className="btn btn-dark me-2">EN</a>
-
-               {/* Conditionally show Login/Register OR Logout */}
-              {!loggedIn ? (
-                <>
-                  <Link to="/login" className="btn btn-dark me-2">Login</Link>
-                  <Link to="/register" className="btn btn-dark me-2">Register</Link>
-                </>
-              ) : (
-                <button onClick={logout} className="btn btn-danger me-2">
-                  Logout
-                </button>
-              )}
 
               {/* Heart Icon */}
-              <i className="bi bi-heart mx-2 fs-5"></i>
+              {/* <i className="bi bi-heart mx-2 fs-5"></i> */}
 
               {/* Cart Icon with badge */}
-              <div className="position-relative mx-2">
+              <div className="position-relative mx-2 me-3">
                 <i className="bi bi-cart-fill fs-5"></i>
                 <span className="badge bg-primary position-absolute top-0 start-100 translate-middle">
                   2
                 </span>
               </div>
-            </div>
+              <a href="#" className="btn btn-dark me-2">EN</a>
 
+               {/* If NOT logged in → show Login + Register */}
+               {!loggedIn ? (
+                <>
+                  <Link to="/login" className="btn btn-dark me-2">Login</Link>
+                  <Link to="/register" className="btn btn-dark me-2">Register</Link>
+                </>
+              ) : (
+             <Dropdown align="end">
+                <Dropdown.Toggle variant="dark" id="accountMenu">
+                  👋 Welcome, User
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu className="py-2">
+                  {/* Account Section */}
+                  <Dropdown.Item as={Link} to="/account">
+                    <i className="bi bi-person-circle me-2"></i> Edit Profile
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/addresses">
+                    <i className="bi bi-geo-alt me-2"></i> Shipping Addresses
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/payment-methods">
+                    <i className="bi bi-credit-card me-2"></i> Payment Methods
+                  </Dropdown.Item>
+
+                  <Dropdown.Divider />
+
+                  {/* Shopping Section */}
+                  <Dropdown.Item as={Link} to="/orders">
+                    <i className="bi bi-bag-check me-2"></i> My Orders
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/wishlist">
+                    <i className="bi bi-heart me-2"></i> Wishlist
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/cart">
+                    <i className="bi bi-cart3 me-2"></i> My Cart
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/returns">
+                    <i className="bi bi-arrow-counterclockwise me-2"></i> Returns & Refunds
+                  </Dropdown.Item>
+
+                  <Dropdown.Divider />
+
+                  {/* Support Section */}
+                  <Dropdown.Item as={Link} to="/support">
+                    <i className="bi bi-headset me-2"></i> Help Center
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/track-order">
+                    <i className="bi bi-truck me-2"></i> Track Order
+                  </Dropdown.Item>
+                  <Dropdown.Item as={Link} to="/faq">
+                    <i className="bi bi-question-circle me-2"></i> FAQ
+                  </Dropdown.Item>
+
+                  <Dropdown.Divider />
+
+                  {/* Logout */}
+                  <Dropdown.Item onClick={logout} className="text-danger">
+                    <i className="bi bi-box-arrow-right me-2"></i> Logout
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+
+            )}
+            </div>
           </div>
         </div>
       </nav>

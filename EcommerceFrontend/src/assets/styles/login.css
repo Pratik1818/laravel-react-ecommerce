@@ -7,7 +7,7 @@
 
 .login-title {
   font-weight: 700;
-  color: #0066ff;
+  color: black;
 }
 
 .custom-input {
@@ -18,7 +18,7 @@
 }
 
 .login-button {
-  background-color: #0066ff;
+  background-color: black;
   border: none;
   border-radius: 10px;
   font-size: 1.1rem;
@@ -30,7 +30,7 @@
 }
 
 .forgot-link {
-  color: #0066ff;
+  color: black;
   font-weight: 500;
   text-decoration: none;
 }

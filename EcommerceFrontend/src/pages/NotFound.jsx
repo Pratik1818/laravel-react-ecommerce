@@ -1,23 +1,44 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
 import "../assets/styles/notfound.css";
+import NotFoundImg from "../assets/images/notfound_page.png";
 
 const NotFound = () => {
   return (
-    <div className="error-page">
-      <div className="error-header">Ohh</div>
-      <div className="error-content">
-        <img
-          src="https://cdn.pixabay.com/photo/2017/01/31/13/13/cartoon-2026518_1280.png"
-          alt="404 cartoon"
-          className="error-image"
-        />
-        <h1>404</h1>
-        <h2>This Page Not Available</h2>
-        <p>Ohh.....You requested the page that is no longer there.</p>
-        <a href="/" className="error-button">Back to Home</a>
+    <div className="notfound-wrapper bg-light-">
+      <div className="bubbles">
+        {[...Array(10)].map((_, i) => (
+          <div key={i} className="bubble"></div>
+        ))}
       </div>
-      <div className="error-footer">
-        © 2025 Ohh. All Rights Reserved | Design by <a href="https://w3layouts.com" target="_blank" rel="noopener noreferrer">W3Layouts</a>
+
+      <div className="notfound-content fade-in">
+        <div className="error-animation mb-4">
+          <span className="digit">4</span>
+          <span className="digit zero">0</span>
+          <span className="digit">4</span>
+        </div>
+        <h1 className="error-title mb-2 fw-bold text-gradient display-4">
+          Oops! Page Not Found
+        </h1>
+        <p className="error-description mb-4 fs-5 text-secondary">
+          The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+        </p>
+
+        <div className="mb-5">
+          <Link 
+            to="/" 
+            className="btn btn-primary btn-lg rounded-pill shadow d-flex justify-content-center align-items-center px-4"
+            style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700 }}
+          >
+            <i className="bi bi-house-door-fill me-2 fs-4"></i> Back to Home
+          </Link>
+        </div>
+
+
+        {/* <div className="error-image-wrapper mt-5">
+          <img src={NotFoundImg} alt="404 cartoon" className="img-fluid bounce hover-zoom" />
+        </div> */}
       </div>
     </div>
   );
