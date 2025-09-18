@@ -51,7 +51,7 @@ const Login = () => {
   return (
     <Container className="d-flex justify-content-center align-items-center mt-5 mb-5">
       <Card className="login-card shadow p-4" style={{ width: "450px" }}>
-        <h2 className="text-center login-title mb-2">Login</h2>
+        <h2 className="text-center login-title mb-2 text-dark">Login</h2>
 
         {serverError && <Alert variant="danger">{serverError}</Alert>}
 
