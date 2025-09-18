@@ -7,6 +7,8 @@ import NotFound from '../pages/NotFound';
 import EditProfile from '../pages/EditProfile';
 import ForgotPassword from '../pages/ForgotPassword';
 import ResetPassword from '../pages/resetPassword';
+import ProtectedRoute from './ProtectedRoute';
+
 
 export default function AppRoutes() {
   return (
@@ -18,7 +20,11 @@ export default function AppRoutes() {
       <Route path="/forgot-password" element={<ForgotPassword />}/>
       <Route path="/reset-password" element={<ResetPassword />}/>
 
-      <Route path="/editprofile" element={<EditProfile/>} />
+      <Route path="/editprofile"  element={
+          <ProtectedRoute>
+            <EditProfile />
+          </ProtectedRoute>
+        } />
       <Route path="*" element={<NotFound />} />
         
     </Routes>
