@@ -3,8 +3,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\UpdateProfileRequest;
 use App\Models\CustUser;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 class AuthController extends Controller
 {
@@ -49,6 +51,34 @@ class AuthController extends Controller
         'message' => 'Login successful',
         'user'    => $userData,
         'token'   => $token,
+    ]);
+}
+
+ // Get logged in user data
+    public function getProfile()
+    {
+        $user = Auth::user();
+        return response()->json([
+            'user' => $user
+        ]);
+    }
+
+    // Update profile
+   public function updateProfile(UpdateProfileRequest $request)
+{
+    $user = Auth::user();
+
+    // Update using correct column names
+    $user->update([
+        'first_name' => $request->firstName,
+        'last_name'  => $request->lastName,
+        'email'      => $request->email,
+        'mobile'     => $request->mobile,
+    ]);
+
+    return response()->json([
+        'message' => 'Profile updated successfully',
+        'user' => $user
     ]);
 }
 

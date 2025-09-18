@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, Navbar } from "react-bootstrap";
 import "../../assets/styles/header.css";
 import CartIcon from "../cart/CartIcon";
 import { AuthContext } from "../../context/AuthContext";
+import Navlink from "./Navlink";
 
 function Header() {
   const { user, logout } = useContext(AuthContext);
@@ -74,7 +75,7 @@ function Header() {
 
                   <Dropdown.Menu className="py-2">
                     {/* Account Section */}
-                    <Dropdown.Item as={Link} to="/account">
+                    <Dropdown.Item as={Link} to="/editprofile">
                       <i className="bi bi-person-circle me-2"></i> Edit Profile
                     </Dropdown.Item>
                     <Dropdown.Item as={Link} to="/addresses">
@@ -125,8 +126,11 @@ function Header() {
               )}
             </div>
           </div>
+          
         </div>
+        
       </nav>
+      <Navlink/>
     </header>
   );
 }
