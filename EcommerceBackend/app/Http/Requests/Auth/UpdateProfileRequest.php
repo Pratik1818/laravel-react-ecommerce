@@ -12,18 +12,18 @@ class UpdateProfileRequest extends FormRequest
         return true; // Route middleware ensures user is authenticated
     }
 
-    public function rules(): array
-    {
-        $userId = Auth::id(); // current logged in user
+   public function rules(): array
+{
+    $userId = Auth::id() ?? 'NULL'; // prevent invalid SQL
 
-        return [
-            'firstName' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
-            'lastName'  => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
-            'email'     => "required|string|email|max:255|unique:cust_users,email,$userId",
-            'mobile'    => "required|digits:10|unique:cust_users,mobile,$userId",
-            
-        ];
-    }
+    return [
+        'firstName' => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
+        'lastName'  => 'required|regex:/^[a-zA-Z\s]+$/|max:255',
+        'email'     => "required|string|email|max:255|unique:cust_users,email,{$userId}",
+        'mobile'    => "required|digits:10|unique:cust_users,mobile,{$userId}",
+    ];
+}
+
 
     public function messages(): array
     {

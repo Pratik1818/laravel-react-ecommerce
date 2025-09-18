@@ -60,47 +60,39 @@ function EditProfile() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
+  e.preventDefault();
+  const validationErrors = validate();
+  if (Object.keys(validationErrors).length > 0) {
+    setErrors(validationErrors);
+    return;
+  }
+
+  try {
+    const response = await API.post("/updateprofile", form); // send JSON directly
+
+    if (successRef.current) {
+      successRef.current.style.display = "block";
+      successRef.current.innerText = response.data.message;
     }
 
-    const formData = new FormData();
-    formData.append("firstName", form.firstName);
-    formData.append("lastName", form.lastName);
-    formData.append("email", form.email);
-    formData.append("mobile", form.mobile);
-    
-
-    try {
-      const response = await API.post("/user/update", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      // Show success message
-      if (successRef.current) {
-        successRef.current.style.display = "block";
-        successRef.current.innerText = response.data.message;
-      }
-
-      setErrors({});
-    } catch (error) {
-      if (error.response?.status === 422) {
-        const backendErrors = error.response.data.errors;
-        const formattedErrors = {};
-        for (const key in backendErrors) {
-          if (backendErrors.hasOwnProperty(key)) {
-            formattedErrors[key] = backendErrors[key][0];
-          }
+    setErrors({});
+  } catch (error) {
+    alert(error);
+    if (error.response?.status === 422) {
+      const backendErrors = error.response.data.errors;
+      const formattedErrors = {};
+      for (const key in backendErrors) {
+        if (backendErrors.hasOwnProperty(key)) {
+          formattedErrors[key] = backendErrors[key][0];
         }
-        setErrors(formattedErrors);
-      } else {
-        console.error("Update profile error:", error);
       }
+      setErrors(formattedErrors);
+    } else {
+      console.error("Update profile error:", error);
     }
-  };
+  }
+};
+
 
   return (
     <div

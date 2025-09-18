@@ -1,10 +1,12 @@
 import { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // ✅ Run only on first load → restore user & token from localStorage
   useEffect(() => {
@@ -30,6 +32,9 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     setUser(null);
+
+    // 👇 Redirect to home page after logout
+    navigate("/");
   };
 
   return (

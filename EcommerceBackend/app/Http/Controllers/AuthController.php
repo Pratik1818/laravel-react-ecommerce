@@ -69,24 +69,28 @@ class AuthController extends Controller
         ]);
     }
 
-    // Update profile
-   public function updateProfile(UpdateProfileRequest $request)
-    {
-        $user = Auth::user();
+  
+  // Update profile
+public function updateProfile(UpdateProfileRequest $request)
+{
+    $user = Auth::user();
 
-        // Update using correct column names
-        $user = CustUser::update([
-            'first_name' => $request->firstName,
-            'last_name'  => $request->lastName,
-            'email'      => $request->email,
-            'mobile'     => $request->mobile,
-        ]);
+    // Update the authenticated user
+    $user->update([
+        'first_name' => $request->firstName,
+        'last_name'  => $request->lastName,
+        'email'      => $request->email,
+        'mobile'     => $request->mobile,
+    ]);
 
-        return response()->json([
-            'message' => 'Profile updated successfully',
-            'user' => $user
-        ]);
-    }
+    return response()->json([
+        'message' => 'Profile updated successfully',
+        'user' => $user  // return updated user
+    ],201);
+
+   
+}
+
     
     public function forgotPassword(Request $request)
     {

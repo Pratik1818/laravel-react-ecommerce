@@ -10,8 +10,9 @@ import { AuthProvider } from "./context/AuthContext";
 
 export default function App() {
   return (
+     <BrowserRouter>
     <AuthProvider>
-      <BrowserRouter>
+     
         {/* Header - visible on all pages */}
         <Header />
 
@@ -22,7 +23,8 @@ export default function App() {
 
         {/* Footer - visible on all pages */}
         <Footer />
-      </BrowserRouter>
+      
     </AuthProvider>
+    </BrowserRouter>
   );
 }
