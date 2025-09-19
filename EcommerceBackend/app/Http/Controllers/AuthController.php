@@ -75,13 +75,12 @@ public function updateProfile(UpdateProfileRequest $request)
 {
     $user = Auth::user();
 
-    // Update the authenticated user
     $user->update([
         'first_name' => $request->firstName,
         'last_name'  => $request->lastName,
         'email'      => $request->email,
         'mobile'     => $request->mobile,
-    ]);
+    ]); 
 
     return response()->json([
         'message' => 'Profile updated successfully',
@@ -114,7 +113,7 @@ public function updateProfile(UpdateProfileRequest $request)
         PasswordReset::updateOrCreate(
             ['email' => $email], // unique identifier
             [
-                'token' => Hash::make($token),
+                'token' => $token,
                 'created_at' => Carbon::now()
             ]
         );

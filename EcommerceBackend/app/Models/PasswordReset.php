@@ -6,9 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class PasswordReset extends Model
 {
-    protected $table = 'password_resets';
-    public $timestamps = false; // created_at is manually set
+    protected $table = 'password_reset_tokens';
+    public $timestamps = false;
     protected $fillable = ['email', 'token', 'created_at'];
-    public $incrementing = false; // no id column
-    protected $primaryKey = null; // important so Eloquent doesn't expect an id
+    
+    protected $primaryKey = 'email';  // 👈 primary key is email
+    public $incrementing = false;     // no auto-increment
+    protected $keyType = 'string'; 
 }
