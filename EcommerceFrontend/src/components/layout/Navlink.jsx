@@ -1,67 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "../../assets/styles/navbar.css";
 
-const categories = [
-  {
-    name: "BREAKROOM",
-    subcategories: [
-      {
-        name: "Appliances",
-        subcategories: [],
-      },
-      {
-        name: "Beverage Supplies",
-        subcategories: [
-          { name: "Ice Buckets" },
-          { name: "Stirrers" },
-          { name: "Straws" },
-          { name: "Water Dispensers & Filters" },
-        ],
-      },
-      { name: "Beverages" },
-      { name: "Coffee & Coffee Supplies" },
-      { name: "Food & Condiments" },
-      { name: "Foodservice Supplies" },
-      { name: "Tableware" },
-    ],
-  },
-  {
-    name: "JANITORIAL & FACILITY SUPPLIES",
-    subcategories: [],
-  },
-  {
-    name: "SAFETY & PPE",
-    subcategories: [],
-  },
-  {
-    name: "FURNITURE & INTERIORS",
-    subcategories: [],
-  },
-  {
-    name: "OFFICE SUPPLIES",
-    subcategories: [],
-  },
-  {
-    name: "TECHNOLOGY",
-    subcategories: [],
-  },
-  {
-    name: "SCHOOL SUPPLIES",
-    subcategories: [],
-  },
-];
-
 function Navlink() {
+  const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeSub, setActiveSub] = useState(null);
+  const [loading, setLoading] = useState(true); // ✅ loader state
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await axios.get("http://127.0.0.1:8000/api/categories");
+        setCategories(res.data);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+      } finally {
+        setLoading(false); // ✅ stop loader after fetch
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="navbar-container">
+        <ul className="main-menu">
+          <li className="menu-item">Loading categories...</li>
+        </ul>
+      </div>
+    );
+  }
 
   return (
     <div className="navbar-container">
       <ul className="main-menu">
         {categories.map((cat, i) => (
           <li
-            key={i}
+            key={cat.id}
             className={`menu-item ${activeCategory === i ? "active" : ""}`}
             onMouseEnter={() => setActiveCategory(i)}
             onMouseLeave={() => {
@@ -69,26 +46,26 @@ function Navlink() {
               setActiveSub(null);
             }}
           >
-            <span>{cat.name}</span>
+            <span>{cat.category_name}</span>
 
-            {cat.subcategories.length > 0 && (
+            {cat.subcategories?.length > 0 && (
               <ul className="submenu">
                 {cat.subcategories.map((sub, j) => (
                   <li
-                    key={j}
+                    key={sub.id}
                     className={`submenu-item ${
                       activeSub === j ? "active" : ""
                     }`}
                     onMouseEnter={() => setActiveSub(j)}
                     onMouseLeave={() => setActiveSub(null)}
                   >
-                    <span>{sub.name}</span>
+                    <span>{sub.category_name}</span>
 
-                    {sub.subcategories && sub.subcategories.length > 0 && (
+                    {sub.subcategories?.length > 0 && (
                       <ul className="nested-submenu">
-                        {sub.subcategories.map((nested, k) => (
-                          <li key={k}>
-                            <Link to="#">{nested.name}</Link>
+                        {sub.subcategories.map((nested) => (
+                          <li key={nested.id}>
+                            <Link to="#">{nested.category_name}</Link>
                           </li>
                         ))}
                       </ul>

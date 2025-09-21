@@ -44,7 +44,7 @@ class AuthController extends Controller
 
     // Issue Sanctum token
     $token = $user->createToken('auth_token')->plainTextToken;
-
+       
     // Prepare clean user data
     $userData = [
         'id'         => $user->id,

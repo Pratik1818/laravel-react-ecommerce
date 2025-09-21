@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef ,useContext} from "react";
 import { Card } from "react-bootstrap";
 import API from "../api/api.jsx";
+import { AuthContext } from "../context/AuthContext"; // import context
 
 function EditProfile() {
+
+  const { user, login } = useContext(AuthContext);
+
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -69,6 +73,9 @@ function EditProfile() {
 
   try {
     const response = await API.post("/updateprofile", form); // send JSON directly
+      const updatedUser = response.data.user; // assuming your API returns the updated user
+    const token = localStorage.getItem("token"); // keep the same token
+    login(updatedUser, token);
 
     if (successRef.current) {
       successRef.current.style.display = "block";
@@ -98,7 +105,7 @@ function EditProfile() {
     <div
       className="d-flex justify-content-center align-items-center px-3"
       style={{
-        minHeight: "100vh",
+        minHeight: "90vh",
         background: "linear-gradient(to right, #eef2f3, #d9e4ec)",
         paddingTop: "40px",
         paddingBottom: "40px",
