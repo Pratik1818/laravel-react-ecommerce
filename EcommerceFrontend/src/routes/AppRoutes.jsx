@@ -8,6 +8,13 @@ import EditProfile from '../pages/EditProfile';
 import ForgotPassword from '../pages/ForgotPassword';
 import ResetPassword from '../pages/resetPassword';
 import ProtectedRoute from './ProtectedRoute';
+import OrdersDashboard from '../components/Order/OrderDashboard';
+import PaymentMethodsDashboard from '../pages/PaymentMethod';
+import WishlistDashboard from '../pages/WishList';
+import MyCart from '../components/cart/MyCart';
+import TrackOrderDashboard from '../components/Order/TrackOrderDashboard';
+import HelpCenterDashboard from '../pages/HelpCenter';
+import ReturnsRefundsDashboard from '../pages/ReturnRefunds';
 
 
 export default function AppRoutes() {
@@ -19,6 +26,14 @@ export default function AppRoutes() {
       <Route path="/register" element={<Register/>} />
       <Route path="/forgot-password" element={<ForgotPassword />}/>
       <Route path="/reset-password" element={<ResetPassword />}/>
+
+      <Route path="/orders" element={ <OrdersDashboard />}/>
+      <Route path="/payment-methods" element={<PaymentMethodsDashboard />} />
+      <Route path="/wishlist" element={ <WishlistDashboard />}/>
+      <Route path="/cart" element={ <MyCart />}/>
+      <Route path="track-order" element={ <TrackOrderDashboard />}/>
+      <Route path="support" element={ <HelpCenterDashboard />}/>
+      <Route path="returns" element={ <ReturnsRefundsDashboard />}/>
 
       <Route path="/editprofile"  element={
           <ProtectedRoute>

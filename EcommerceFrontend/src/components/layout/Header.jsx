@@ -73,7 +73,7 @@ function Header() {
                     👋 Welcome, {displayName || user.email}
                   </Dropdown.Toggle>
 
-                  <Dropdown.Menu className="py-2">
+                  <Dropdown.Menu className="py-2" style={{ zIndex: 2000 }}>
                     {/* Account Section */}
                     <Dropdown.Item as={Link} to="/editprofile">
                       <i className="bi bi-person-circle me-2"></i> Edit Profile
@@ -104,15 +104,13 @@ function Header() {
 
                     <Dropdown.Divider />
 
-                    {/* Support Section */}
-                    <Dropdown.Item as={Link} to="/support">
-                      <i className="bi bi-headset me-2"></i> Help Center
-                    </Dropdown.Item>
+                    
                     <Dropdown.Item as={Link} to="/track-order">
                       <i className="bi bi-truck me-2"></i> Track Order
                     </Dropdown.Item>
-                    <Dropdown.Item as={Link} to="/faq">
-                      <i className="bi bi-question-circle me-2"></i> FAQ
+                    {/* Support Section */}
+                    <Dropdown.Item as={Link} to="/support">
+                      <i className="bi bi-headset me-2"></i> Help Center
                     </Dropdown.Item>
 
                     <Dropdown.Divider />
