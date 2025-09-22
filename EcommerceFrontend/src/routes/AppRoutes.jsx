@@ -15,6 +15,7 @@ import MyCart from '../components/cart/MyCart';
 import TrackOrderDashboard from '../components/Order/TrackOrderDashboard';
 import HelpCenterDashboard from '../pages/HelpCenter';
 import ReturnsRefundsDashboard from '../pages/ReturnRefunds';
+import ProductListing from '../pages/ProductListing';
 
 
 export default function AppRoutes() {
@@ -34,6 +35,7 @@ export default function AppRoutes() {
       <Route path="track-order" element={ <TrackOrderDashboard />}/>
       <Route path="support" element={ <HelpCenterDashboard />}/>
       <Route path="returns" element={ <ReturnsRefundsDashboard />}/>
+      <Route path="product-listing" element={ <ProductListing />} />
 
       <Route path="/editprofile"  element={
           <ProtectedRoute>
