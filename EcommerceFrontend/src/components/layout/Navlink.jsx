@@ -7,7 +7,7 @@ function Navlink() {
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeSub, setActiveSub] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ loader state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -17,7 +17,7 @@ function Navlink() {
       } catch (err) {
         console.error("Error fetching categories:", err);
       } finally {
-        setLoading(false); // ✅ stop loader after fetch
+        setLoading(false);
       }
     };
     fetchCategories();
@@ -38,7 +38,7 @@ function Navlink() {
       <ul className="main-menu">
         {categories.map((cat, i) => (
           <li
-            key={cat.id}
+            key={cat.category_id}
             className={`menu-item ${activeCategory === i ? "active" : ""}`}
             onMouseEnter={() => setActiveCategory(i)}
             onMouseLeave={() => {
@@ -48,7 +48,8 @@ function Navlink() {
           >
             <span>{cat.category_name}</span>
 
-            {cat.subcategories?.length > 0 && (
+            {/* Show submenu only when hovering main category */}
+            {activeCategory === i && cat.subcategories?.length > 0 && (
               <ul className="submenu">
                 {cat.subcategories.map((sub, j) => (
                   <li
@@ -61,7 +62,8 @@ function Navlink() {
                   >
                     <span>{sub.category_name}</span>
 
-                    {sub.subcategories?.length > 0 && (
+                    {/* Show nested submenu only when hovering subcategory */}
+                    {activeSub === j && sub.subcategories?.length > 0 && (
                       <ul className="nested-submenu">
                         {sub.subcategories.map((nested) => (
                           <li key={nested.id}>
