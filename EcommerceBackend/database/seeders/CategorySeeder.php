@@ -21,23 +21,23 @@ class CategorySeeder extends Seeder
         // ['category_name' => 'Fashion', 'parent_category_id' => null]
         // ]);
 
-        // $technology = DB::table('categories')
-        //     ->where('category_name', 'Technology')
-        //     ->first();
+        $technology = DB::table('categories')
+            ->where('category_name', 'Technology')
+            ->first();
 
-        // if ($technology) {
-        //     $technologyId = $technology->category_id;
+        if ($technology) {
+            $technologyId = $technology->category_id;
 
-        //     // Insert subcategories for Technology
-        //     DB::table('categories')->insert([
-        //         ['category_name' => 'Business Machines & Accessories', 'parent_category_id' => $technologyId],
-        //         ['category_name' => 'Computer Supplies', 'parent_category_id' => $technologyId],
-        //         ['category_name' => 'Consumer Electronics & Accessories', 'parent_category_id' => $technologyId],
-        //         ['category_name' => 'Printers, Scanners & Supplies', 'parent_category_id' => $technologyId],
-        //     ]);
-        // } else {
-        //     echo "Technology category not found!";
-        // }
+            // Insert subcategories for Technology
+            DB::table('categories')->insert([
+                ['category_name' => 'Business Machines & Accessories', 'parent_category_id' => $technologyId],
+                ['category_name' => 'Computer Supplies', 'parent_category_id' => $technologyId],
+                ['category_name' => 'Consumer Electronics & Accessories', 'parent_category_id' => $technologyId],
+                ['category_name' => 'Printers, Scanners & Supplies', 'parent_category_id' => $technologyId],
+            ]);
+        } else {
+            echo "Technology category not found!";
+        }
 
           $computer_supplies = DB::table('categories')
             ->where('category_name', 'Computer Supplies')

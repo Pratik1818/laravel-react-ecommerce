@@ -16,6 +16,12 @@ class CategoryController extends Controller
 
         return response()->json($categories);
     }
+
+    public function topCategories()
+    {
+        $categories = Category::whereNull('parent_category_id')->get();
+        return response()->json($categories);
+    }
 }
 
 ?>
