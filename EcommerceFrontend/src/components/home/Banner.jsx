@@ -1,39 +1,44 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 import { Carousel, Button } from "react-bootstrap";
+import API from "../../api/api"; // your Axios instance
 import "../../assets/styles/home.css";
 
-import Banner1 from "../../assets/images/banner/Banner2.jpg";
-import Banner2 from "../../assets/images/banner/Banner3.jpg";
-import Banner3 from "../../assets/images/banner/Banner1.jpg"; 
-
-
 function Banner() {
+  const [banners, setBanners] = useState([]);
+
+  useEffect(() => {
+    // Fetch banners from API
+    const fetchBanners = async () => {
+      try {
+        const res = await API.get("/banners");
+        // Only show active banners
+        setBanners(res.data.filter(b => b.status === "active"));
+      } catch (err) {
+        console.error("Error fetching banners:", err);
+      }
+    };
+
+    fetchBanners();
+  }, []);
+
+  if (banners.length === 0) return null; // don't render carousel if no banners
+
   return (
     <section className="d-flex justify-content-center my-5">
       <div className="w-80 position-relative">
         <Carousel fade interval={4000}>
-          {[Banner1, Banner2, Banner3].map((banner, idx) => (
-            <Carousel.Item key={idx}>
+          {banners.map((banner, idx) => (
+            <Carousel.Item key={banner.id}>
               <img
                 className="d-block w-100 rounded-3 vh-80 object-fit-cover"
-                src={banner}
-                alt={`Fashion Slide ${idx + 1}`}
+                src={banner.image_url}
+                alt={banner.title}
               />
               <Carousel.Caption className="text-center bg-dark bg-opacity-50 p-4 rounded-3">
-                <h1 className="fw-bold display-4">
-                  {idx === 0
-                    ? "Discover the Best Deals Today"
-                    : idx === 1
-                    ? "New Fashion Arrivals"
-                    : "Exclusive Summer Collection"}
-                </h1>
+                <h1 className="fw-bold display-4">{banner.title}</h1>
                 <p className="lead">
-                  {idx === 0
-                    ? "Shop the latest trends at unbeatable prices"
-                    : idx === 1
-                    ? "Upgrade your wardrobe with trending styles"
-                    : "Bright colors, stylish designs, limited stock!"}
+                  {/* Optional: you can have a description in DB or static fallback */}
+                  {banner.description || "Check out our latest offers!"}
                 </p>
                 <Button variant="danger" className="px-4 py-2">
                   Shop Now
@@ -45,7 +50,6 @@ function Banner() {
       </div>
     </section>
   );
-
-        }
+}
 
 export default Banner;

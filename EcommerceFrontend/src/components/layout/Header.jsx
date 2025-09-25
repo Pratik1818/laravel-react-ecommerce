@@ -115,6 +115,13 @@ function Header() {
 
                     <Dropdown.Divider />
 
+                    {/*Banner Management */}
+                    <Dropdown.Item as={Link} to="/banners">
+                      <i className="bi bi-image me-2"></i> Manage Banners
+                    </Dropdown.Item>
+
+                    <Dropdown.Divider />
+
                     {/* Logout */}
                     <Dropdown.Item onClick={logout} className="text-danger">
                       <i className="bi bi-box-arrow-right me-2"></i> Logout

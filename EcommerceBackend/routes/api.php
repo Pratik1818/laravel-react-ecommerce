@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsletterController;
 
@@ -24,5 +25,7 @@ Route::get('category-products/{category_id}', [ProductController::class, 'getCat
 Route::get('/top-categories', [CategoryController::class, 'topCategories']);
 
 Route::post('/subscribe-newsletter', [NewsletterController::class, 'subscribe']);
+
+Route::apiResource('banners', BannerController::class);
 
  
