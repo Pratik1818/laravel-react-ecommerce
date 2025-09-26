@@ -24,7 +24,12 @@ class BannerController extends Controller
             'status' => 'required|in:active,inactive',
         ]);
 
-        $path = $request->file('image')->store('banners', 'public');
+    // Extract original name and extension
+    $originalName = pathinfo($request->file('image')->getClientOriginalName(), PATHINFO_FILENAME);
+    $extension = $request->file('image')->getClientOriginalExtension();
+
+    // Make filename unique (e.g., banner_1727358291.jpg)
+    $filename = $originalName . '_' . time() . '.' . $extension;        $path = $request->file('image')->storeAs('banners', $filename, 'public');
 
         $banner = Banner::create([
             'title' => $request->title,
@@ -50,14 +55,23 @@ class BannerController extends Controller
              'status' => 'required|in:active,inactive',
         ]);
 
+
+
         if($request->hasFile('image'))
         {
             if($banner->image && Storage::disk('public')->exists($banner->image))
             {
                 Storage::disk('public')->delete($banner->image);
             }
-            $path = $request->file('image')->store('banners', 'public');
-            $banner->image = $path;
+
+           $originalName = pathinfo($request->file('image')->getClientOriginalName(), PATHINFO_FILENAME);
+           $extension = $request->file('image')->getClientOriginalExtension();
+
+          // Create unique filename
+          $filename = $originalName . '_' . time() . '.' . $extension;
+
+          $path = $request->file('image')->storeAs('banners', $filename, 'public');
+          $banner->image = $path;
         }
         $banner->title = $request->title;
         $banner->status = $request->status;

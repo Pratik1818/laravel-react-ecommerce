@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Carousel, Button } from "react-bootstrap";
-import API from "../../api/api"; // your Axios instance
+import API from "../../api/api"; 
 import "../../assets/styles/home.css";
 
 function Banner() {
