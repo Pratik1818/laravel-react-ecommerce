@@ -23,5 +23,8 @@ class ProductInfo extends Model
     {
         return $this->hasMany(ProductImage::class, 'product_id', 'product_id');
     }
+
+    
+    
 }
 ?>

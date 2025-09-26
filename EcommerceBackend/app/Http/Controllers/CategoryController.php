@@ -1,15 +1,16 @@
 <?php 
 
-// app/Http/Controllers/CategoryController.php
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\ProductInfo;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    // Fetch all parent categories with nested subcategories
     public function index()
     {
-        // Fetch parent categories with recursive children
         $categories = Category::whereNull('parent_category_id')
             ->with('subcategories.subcategories') // eager load nested
             ->get();
@@ -17,70 +18,65 @@ class CategoryController extends Controller
         return response()->json($categories);
     }
 
+    // Fetch top-level categories only
     public function topCategories()
     {
         $categories = Category::whereNull('parent_category_id')->get();
         return response()->json($categories);
     }
 
+    // Fetch products for a given category
      public function getCategoryProducts($category_id)
     {
-        // Fetch subcategories of this category
+        // Check for subcategories
         $subcategories = Category::where('parent_category_id', $category_id)->get();
 
         if ($subcategories->isNotEmpty()) {
-            // If category has child categories, get 1 product per subcategory
             $products = [];
 
             foreach ($subcategories as $subcategory) {
                 $product = ProductInfo::where('category_id', $subcategory->category_id)
-                    ->with(['images' => function($q){
+                    ->with(['images' => function($q) {
                         $q->where('is_main', 1);
                     }])
-                    ->first(); // only one product
+                    ->first(); // Only one product per subcategory
 
                 if ($product) {
-                    // Update image URLs
-                    $product->images->transform(function ($img) {
-                        $img->image_url = asset('storage/'.$img->image_url);
-                        return $img;
-                    });
-
                     $products[] = [
-                        'subcategory_id' => $subcategory->category_id,
+                        'subcategory_id'   => $subcategory->category_id,
                         'subcategory_name' => $subcategory->category_name,
-                        'product' => $product
+                        'product' => [
+                            'product_name' => $product->product_name,
+                            'image_url' => $product->images->first()?->image_url ?? null
+                        ]
                     ];
                 }
             }
 
             return response()->json([
-                'type' => 'category_preview', // frontend can render category preview
-                'data' => $products
-            ]);
-
-        } else {
-            // If no child categories, return all products of this category
-            $products = ProductInfo::where('category_id', $category_id)
-                ->with(['images' => function($q){
-                    $q->where('is_main',1);
-                }])
-                ->get();
-
-            $products->transform(function ($product) {
-                $product->images->transform(function ($img) {
-                    $img->image_url = asset('storage/'.$img->image_url);
-                    return $img;
-                });
-                return $product;
-            });
-
-            return response()->json([
-                'type' => 'product_listing', // frontend can render product listing
+                'type' => 'category_preview',
                 'data' => $products
             ]);
         }
+
+        // No subcategories: return all products for this category
+        $products = ProductInfo::where('category_id', $category_id)
+            ->with(['images' => function($q) {
+                $q->where('is_main', 1);
+            }])
+            ->get();
+
+        $products = $products->map(function($product) {
+            return [
+                'product_name' => $product->product_name,
+                'image_url' => $product->images->first()?->image_url ?? null
+            ];
+        });
+
+        return response()->json([
+            'type' => 'product_listing',
+            'data' => $products
+        ]);
     }
 }
-
 ?>

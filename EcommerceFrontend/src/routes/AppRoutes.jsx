@@ -17,6 +17,7 @@ import HelpCenterDashboard from '../pages/HelpCenter';
 import ReturnsRefundsDashboard from '../pages/ReturnRefunds';
 import ProductListing from '../pages/ProductListing';
 import ManageBanner from '../components/admin/ManageBanner';
+import CategoryPreviewPage from '../pages/CategoryPreviewPage';
 
 
 export default function AppRoutes() {
@@ -38,6 +39,7 @@ export default function AppRoutes() {
       <Route path="returns" element={ <ReturnsRefundsDashboard />}/>
       <Route path="product-listing" element={ <ProductListing />} />
       <Route path="banners" element={ <ManageBanner />} />
+      <Route path="/category/:id" element={<CategoryPreviewPage />} />
 
       <Route path="/editprofile"  element={
           <ProtectedRoute>

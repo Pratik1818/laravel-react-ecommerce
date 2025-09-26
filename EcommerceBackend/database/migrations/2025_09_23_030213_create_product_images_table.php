@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('image_path');
             $table->boolean('is_main')->default(false);
             $table->timestamps();
-
+            
             // Foreign key pointing to product_info.product_id
             $table->foreign('product_id')
                   ->references('product_id')
