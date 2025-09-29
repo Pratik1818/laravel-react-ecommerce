@@ -12,19 +12,15 @@ function CategoryPreviewPage() {
   const [breadcrumbs, setBreadcrumbs] = useState([{ name: "Home", id: null }]);
 
   // one reusable fetch function
-  const fetchCategoryProducts = async (categoryId = null, name = null) => {
+  const fetchCategoryProducts = async ( ) => {
     try {
       setLoading(true);
 
-      const targetId = categoryId || id;
+      const targetId = id;
       const res = await API.get(`/category-products/${targetId}`);
 
       setProducts(res.data.data || []);
 
-      // ✅ update breadcrumbs if a name is passed
-      if (name) {
-        setBreadcrumbs((prev) => [...prev, { name, id: targetId }]);
-      }
     } catch (err) {
       console.error("Error fetching category products:", err);
     } finally {
@@ -41,7 +37,7 @@ function CategoryPreviewPage() {
 
   return (
     <div className="category-preview-page mt-5 mb-5">
-      {/* ✅ Breadcrumb */}
+      {/* ✅ Breadcrumb
       <div className="breadcrumb">
         {breadcrumbs.map((crumb, index) => (
           <span key={index} className="breadcrumb-item">
@@ -61,7 +57,7 @@ function CategoryPreviewPage() {
             {index < breadcrumbs.length - 1 && " > "}
           </span>
         ))}
-      </div>
+      </div> */}
 
       {/* Products grid */}
       {products.length === 0 ? (
@@ -77,7 +73,7 @@ function CategoryPreviewPage() {
               key={item.subcategory_id}
               className="product-card"
               onClick={() =>
-                fetchCategoryProducts(item.subcategory_id, item.subcategory_name)
+                navigate(`/category/${item.subcategory_id}`)
               }
             >
               {item.product?.image_url && (
