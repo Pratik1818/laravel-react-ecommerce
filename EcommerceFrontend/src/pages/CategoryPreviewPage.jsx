@@ -21,6 +21,11 @@ function CategoryPreviewPage() {
 
       setProducts(res.data.data || []);
 
+      // Add Home at start
+    const bc = [{ name: "Home", id: null }, ...(res.data.breadcrumbs || [])];
+    setBreadcrumbs(bc);
+
+
     } catch (err) {
       console.error("Error fetching category products:", err);
     } finally {
@@ -37,27 +42,26 @@ function CategoryPreviewPage() {
 
   return (
     <div className="category-preview-page mt-5 mb-5">
-      {/* ✅ Breadcrumb
-      <div className="breadcrumb">
-        {breadcrumbs.map((crumb, index) => (
-          <span key={index} className="breadcrumb-item">
-            {crumb.id ? (
-              <span
-                onClick={() => {
-                  // navigate + reset breadcrumbs up to this level
-                  navigate(`/category/${crumb.id}`);
-                  setBreadcrumbs(breadcrumbs.slice(0, index + 1));
-                }}
-              >
-                {crumb.name}
-              </span>
-            ) : (
-              <span onClick={() => navigate("/")}>{crumb.name}</span>
-            )}
-            {index < breadcrumbs.length - 1 && " > "}
-          </span>
-        ))}
-      </div> */}
+  <div className="breadcrumb">
+  {breadcrumbs.map((crumb, index) => (
+    <span key={index} className="breadcrumb-item">
+      {crumb.id ? (
+        <span
+          onClick={() => {
+            navigate(`/category/${crumb.id}`);
+            // trimming handled because backend always sends proper hierarchy
+          }}
+        >
+          {crumb.name}
+        </span>
+      ) : (
+        <span onClick={() => navigate("/")}>{crumb.name}</span>
+      )}
+      {index < breadcrumbs.length - 1 && " > "}
+    </span>
+  ))}
+</div>
+
 
       {/* Products grid */}
       {products.length === 0 ? (
