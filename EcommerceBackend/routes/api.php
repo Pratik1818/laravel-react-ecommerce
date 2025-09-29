@@ -4,11 +4,15 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\PaymentMethodController;
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', [AuthController::class, 'getProfile']);        // Get logged in user data
-    Route::post('/updateprofile', [AuthController::class, 'updateProfile']); // Update profile
+    Route::get('/user', [AuthController::class, 'getProfile']);
+    Route::post('/updateprofile', [AuthController::class, 'updateProfile']);
+    Route::apiResource('payment-methods', PaymentMethodController::class);
+
 });
+
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -27,5 +31,7 @@ Route::get('/top-categories', [CategoryController::class, 'topCategories']);
 Route::post('/subscribe-newsletter', [NewsletterController::class, 'subscribe']);
 
 Route::apiResource('banners', BannerController::class);
+
+
 
  

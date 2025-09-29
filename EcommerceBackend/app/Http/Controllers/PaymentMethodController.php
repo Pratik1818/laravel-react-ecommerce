@@ -24,9 +24,17 @@ class PaymentMethodController extends Controller
             'cvv' => 'nullable|string|max:4'
         ]);
 
-        $validated['user_id'] = Auth::id();
+        $validated['user_id'] =  Auth::user();
 
-        $payment = PaymentMethod::create($validated);
+        $payment = PaymentMethod::create([
+            'user_id' => Auth::user()->id,
+            'type' => $request->type,
+            'cardholder' => $request->cardholder,
+            'details' => $request->details,
+            'expiry' => $request->expiry,
+            'cvv' => $request->cvv,
+        ]);
+
 
         return response()->json($payment, 201);
     }
