@@ -1,7 +1,9 @@
 import React from "react";
 import { Form } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-function AddPaymentMethod({ form, handleChange }) {
+function AddPaymentMethod({ form, handleChange, setForm }) {
   return (
     <Form>
       {/* Payment Type */}
@@ -22,7 +24,7 @@ function AddPaymentMethod({ form, handleChange }) {
         </Form.Select>
       </Form.Group>
 
-      {/* Cardholder Name */}
+      {/* Cardholder Name & Card Details */}
       {form.type.includes("Card") && (
         <>
           <Form.Group className="mb-3">
@@ -37,7 +39,6 @@ function AddPaymentMethod({ form, handleChange }) {
             />
           </Form.Group>
 
-          {/* Card Number */}
           <Form.Group className="mb-3">
             <Form.Label className="fw-semibold">Card Number</Form.Label>
             <Form.Control
@@ -53,17 +54,18 @@ function AddPaymentMethod({ form, handleChange }) {
           {/* Expiry Date & CVV */}
           <div className="row">
             <div className="col-md-6">
-              <Form.Group className="mb-3">
-                <Form.Label className="fw-semibold">Expiry Date</Form.Label>
-                <Form.Control
-                  type="month"
-                  name="expiry"
-                  value={form.expiry || ""}
-                  onChange={handleChange}
-                  required
-                />
-              </Form.Group>
-            </div>
+            <Form.Group className="mb-3">
+              <Form.Label className="fw-semibold">Expiry Date</Form.Label>
+              <Form.Control
+                type="date"           // changed from "month" to "date"
+                name="expiry"
+                value={form.expiry || ""}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+          </div>
+
             <div className="col-md-6">
               <Form.Group className="mb-3">
                 <Form.Label className="fw-semibold">CVV</Form.Label>
@@ -73,6 +75,7 @@ function AddPaymentMethod({ form, handleChange }) {
                   placeholder="***"
                   value={form.cvv || ""}
                   onChange={handleChange}
+                  maxLength={3}
                   required
                 />
               </Form.Group>

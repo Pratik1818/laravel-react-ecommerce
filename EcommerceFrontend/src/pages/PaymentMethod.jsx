@@ -1,16 +1,14 @@
-import React, { useState } from "react";
-import { Card, Button, Modal } from "react-bootstrap";
-import { CreditCard, Wallet, Trash2, Plus } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { Card, Button, Modal, Spinner, Form } from "react-bootstrap";
 import AddPaymentMethod from "./AddPaymentMethod";
+import API from "../api/api";
+import { FaCreditCard, FaPaypal,FaEdit, FaTrash  } from "react-icons/fa";
 
 function PaymentMethodsDashboard() {
-  const [methods, setMethods] = useState([
-    { id: 1, type: "Credit Card", details: "**** **** **** 1234" },
-    { id: 2, type: "UPI", details: "john@upi" },
-  ]);
-
+  const [methods, setMethods] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [editingMethod, setEditingMethod] = useState(null);
   const [form, setForm] = useState({
     type: "",
     details: "",
@@ -19,122 +17,157 @@ function PaymentMethodsDashboard() {
     cvv: "",
   });
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  useEffect(() => {
+    fetchPaymentMethods();
+  }, []);
 
-  const handleAdd = () => {
-    if (form.type && form.details) {
-      setMethods([...methods, { id: Date.now(), ...form }]);
-      setForm({ type: "", details: "", cardholder: "", expiry: "", cvv: "" });
-      setShowModal(false);
+  const fetchPaymentMethods = async () => {
+    try {
+      const res = await API.get("/payment-methods");
+      setMethods(res.data);
+    } catch (err) {
+      console.error("Error fetching payment methods:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleDelete = (id) => {
-    setMethods(methods.filter((m) => m.id !== id));
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleAddOrUpdate = async () => {
+    if (!form.type || !form.details) return;
+    try {
+      let res;
+      if (editingMethod) {
+        res = await API.put(`/payment-methods/${editingMethod.id}`, form);
+        setMethods(methods.map((m) => (m.id === editingMethod.id ? res.data : m)));
+      } else {
+        res = await API.post("/payment-methods", form);
+        setMethods([...methods, res.data]);
+      }
+      setForm({ type: "", details: "", cardholder: "", expiry: "", cvv: "" });
+      setEditingMethod(null);
+      setShowModal(false);
+    } catch (err) {
+      console.error("Error saving payment method:", err);
+    }
+  };
+
+  const handleEdit = (method) => {
+    setForm({ ...method });
+    setEditingMethod(method);
+    setShowModal(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this method?")) return;
+    try {
+      await API.delete(`/payment-methods/${id}`);
+      setMethods(methods.filter((m) => m.id !== id));
+    } catch (err) {
+      console.error("Error deleting payment method:", err);
+    }
+  };
+
+  const getIcon = (type) => {
+    const lowerType = type.toLowerCase();
+    if (lowerType.includes("card")) return <FaCreditCard size={24} />;
+    if (lowerType.includes("paypal")) return <FaPaypal size={24} color="#003087" />;
+    return null;
   };
 
   return (
     <div className="container my-5">
+      {/* Header */}
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2 className="fw-bold">Payment Methods</h2>
-        {methods.length > 0 && (
-          <Button
-            variant="primary"
-            className="d-flex align-items-center"
-            onClick={() => setShowModal(true)}
-          >
-            <Plus size={18} className="me-2" /> Add Payment Method
-          </Button>
-        )}
+        <Button
+          variant="primary"
+          className="rounded-pill px-4"
+          onClick={() => {
+            setEditingMethod(null);
+            setForm({ type: "", details: "", cardholder: "", expiry: "", cvv: "" });
+            setShowModal(true);
+          }}
+        >
+          + Add Payment Method
+        </Button>
       </div>
 
-      <AnimatePresence>
-        {methods.length > 0 ? (
-          <div className="row">
-            {methods.map((method) => (
-              <motion.div
-                className="col-md-4 mb-3"
-                key={method.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                layout
-              >
-                <Card className="shadow-sm border-0 h-100 payment-card">
-                  <Card.Body className="d-flex flex-column justify-content-between">
-                    <div className="mb-3">
-                      {method.type.toLowerCase().includes("card") ? (
-                        <CreditCard size={32} className="text-primary mb-2" />
-                      ) : (
-                        <Wallet size={32} className="text-success mb-2" />
-                      )}
-                      <h5 className="fw-semibold">{method.type}</h5>
-                      <p className="text-muted mb-0">{method.details}</p>
-                    </div>
+      {/* Loader */}
+      {loading ? (
+        <div className="text-center py-5">
+          <Spinner animation="border" variant="primary" />
+        </div>
+      ) : methods.length > 0 ? (
+        <div className="row">
+          {methods.map((method) => (
+            <div className="col-md-4 mb-3" key={method.id}>
+              <Card className="h-100 border shadow-sm">
+                <Card.Header className="d-flex flex-column align-items-center py-3 bg-light border-bottom">
+                  {getIcon(method.type)}
+                  <h6 className="mt-2">{method.type}</h6>
+                </Card.Header>
+                <Card.Body className="d-flex flex-column justify-content-between">
+                  <p className="text-muted">{method.details}</p>
+                  <div className="d-flex gap-2">
                     <Button
-                      variant="outline-danger"
                       size="sm"
-                      className="d-flex align-items-center"
-                      onClick={() => handleDelete(method.id)}
+                      variant="outline-primary"
+                      className="d-flex align-items-center gap-1 px-3"
+                      onClick={() => handleEdit(method)}
+                      title="Edit"
                     >
-                      <Trash2 size={16} className="me-2" /> Remove
+                      <FaEdit /> Edit
                     </Button>
-                  </Card.Body>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        ) : (
-          <motion.div
-            className="text-center py-5 bg-light rounded"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <Wallet size={48} className="text-secondary mb-3" />
-            <h5 className="fw-semibold">No saved payment methods</h5>
-            <p className="text-muted">
-              Add a payment method to make checkout faster.
-            </p>
-            <Button variant="primary" onClick={() => setShowModal(true)}>
-              <Plus size={18} className="me-2" /> Add Payment Method
-            </Button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+                    <Button
+                      size="sm"
+                      variant="outline-danger"
+                      className="d-flex align-items-center gap-1 px-3"
+                      onClick={() => handleDelete(method.id)}
+                      title="Remove"
+                    >
+                      <FaTrash /> Remove
+                    </Button>
+                  </div>
+
+
+                </Card.Body>
+              </Card>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-5 bg-light rounded">
+          <div className="display-6 mb-3">💳</div>
+          <h5>No saved payment methods</h5>
+          <p className="text-muted">Add a payment method to make checkout faster.</p>
+          <Button variant="primary" onClick={() => setShowModal(true)}>
+            + Add Payment Method
+          </Button>
+        </div>
+      )}
 
       {/* Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title className="fw-bold">
-            <i className="bi bi-credit-card-2-front me-2 text-primary"></i> Add
-            Payment Method
-          </Modal.Title>
+          <Modal.Title>{editingMethod ? "Edit Payment Method" : "Add Payment Method"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AddPaymentMethod form={form} handleChange={handleChange} />
+          <Form>
+            <AddPaymentMethod form={form} handleChange={handleChange} />
+          </Form>
         </Modal.Body>
         <Modal.Footer>
-          <motion.div whileHover={{ scale: 1.05 }} style={{ display: "flex", gap: "10px" }}>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Cancel
-            </Button>
-            <Button variant="success" onClick={handleAdd}>
-              Save Method
-            </Button>
-          </motion.div>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="success" onClick={handleAddOrUpdate}>
+            {editingMethod ? "Update" : "Save"}
+          </Button>
         </Modal.Footer>
       </Modal>
-
-      <style>{`
-        .payment-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 12px 20px rgba(0,0,0,0.15);
-          transition: all 0.3s;
-        }
-      `}</style>
     </div>
   );
 }
