@@ -52,16 +52,18 @@ function Navlink() {
             <ul className="submenu">
               {cat.subcategories.map((sub, j) => (
                 <li
-                  key={sub.id}
+                  key={sub.category_id}
                   className={`submenu-item ${activeSub === j ? "active" : ""}`}
                   onMouseEnter={() => setActiveSub(j)}
                   onMouseLeave={() => setActiveSub(null)}
                 >
-                  <span>{sub.category_name}</span>
+                  <span onClick={() => handleCategoryClick(sub.category_id)}>
+                      {sub.category_name}
+                 </span>
                    {activeSub === j && sub.subcategories?.length > 0 && (
                       <ul className="nested-submenu">
                         {sub.subcategories.map((nested) => (
-                          <li key={nested.id}>
+                          <li key={nested.category_id}>
                             <Link to="#">{nested.category_name}</Link>
                           </li>
                         ))}

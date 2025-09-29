@@ -51,3 +51,53 @@
   font-weight: 500;
   color: #444;
 }
+
+.no-products-card {
+  text-align: center;
+  padding: 40px 20px;
+  border-radius: 16px;
+  background: #f9f9f9;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  margin: 50px auto;
+  max-width: 400px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.no-products-card:hover {
+  transform: translateY(-5px);
+}
+
+.no-products-icon {
+  font-size: 50px;
+  margin-bottom: 15px;
+  color: #ff6b6b;
+}
+
+.no-products-card h3 {
+  font-size: 22px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.no-products-card p {
+  font-size: 16px;
+  color: #666;
+}
+
+.breadcrumb {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #666;
+}
+
+.breadcrumb-item span {
+  cursor: pointer;
+  color: #007bff;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb-item span:hover {
+  color: #0056b3;
+}
+
+
