@@ -83,7 +83,7 @@ function PaymentMethodsDashboard() {
         <h2 className="fw-bold">Payment Methods</h2>
         <Button
           variant="primary"
-          className="rounded-pill px-4"
+          className=" px-4"
           onClick={() => {
             setEditingMethod(null);
             setForm({ type: "", details: "", cardholder: "", expiry: "", cvv: "" });

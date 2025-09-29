@@ -30,8 +30,8 @@ function FeaturedCategories() {
   }, []);
 
   const categoryImages = {
-    "Technology": technology,
-    "Fashion": fashionImg,
+    "TECHNOLOGY": technology,
+    "FASHION": fashionImg,
     "HOME & KITCHEN": homeKitchenImg,
     "Beauty": beautyImg,
     "FURNITURE & INTERIORS" : furniture,
