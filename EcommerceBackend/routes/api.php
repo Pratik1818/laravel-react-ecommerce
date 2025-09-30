@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerController;
@@ -32,6 +33,6 @@ Route::post('/subscribe-newsletter', [NewsletterController::class, 'subscribe'])
 
 Route::apiResource('banners', BannerController::class);
 
-
+Route::get('/brands/featured', [BrandController::class, 'featured']);
 
  

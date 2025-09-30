@@ -10,6 +10,7 @@ import technology from "../../assets/images/categories/technology.jpg";
 import schoolsupply from "../../assets/images/categories/schoolsupply.jpg";
 
 import API from "../../api/api";
+import { Spinner } from "react-bootstrap";
 
 function FeaturedCategories() {
   const [categories, setCategories] = useState([]);
@@ -43,11 +44,7 @@ function FeaturedCategories() {
       <h2 className="text-center mb-4">Featured Categories</h2>
 
       {loading ? (
-        <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
+        <div className="text-center my-5"><Spinner animation="border" /></div>
       ) : (
         <div className="row">
           {categories.map((cat) => (
