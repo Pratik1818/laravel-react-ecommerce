@@ -11,7 +11,7 @@ class ProductInfo extends Model
 
     protected $table = 'product_info';
     protected $primaryKey = 'product_id';
-
+    
     protected $fillable = [
         'category_id','brand_id','sku','product_name','description','price',
         'product_size','weight','height','length','width','is_recycled',

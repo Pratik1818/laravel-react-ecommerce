@@ -11,7 +11,7 @@ class CustUser extends Authenticatable
     use HasApiTokens, Notifiable;
 
     protected $table = 'cust_users'; // explicitly define table if different
-
+    
     protected $fillable = [
         'first_name',
         'last_name',

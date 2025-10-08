@@ -90,7 +90,7 @@ public function updateProfile(UpdateProfileRequest $request)
    
 }
 
-    
+     
     public function forgotPassword(Request $request)
     {
         $request->validate([
@@ -145,7 +145,7 @@ public function updateProfile(UpdateProfileRequest $request)
     }
 
    public function resetPassword(Request $request)
-{
+  {
     $request->validate([
         'email' => 'required|email|exists:cust_users,email',
         'token' => 'required|string',

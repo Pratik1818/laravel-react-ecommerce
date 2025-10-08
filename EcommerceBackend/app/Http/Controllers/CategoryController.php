@@ -14,7 +14,7 @@ class CategoryController extends Controller
         $categories = Category::whereNull('parent_category_id')
             ->with('subcategories.subcategories') // eager load nested
             ->get();
-
+        
         return response()->json($categories);
     }
 
@@ -97,6 +97,8 @@ class CategoryController extends Controller
     $products = $products->map(function($product) {
         return [
             'product_name' => $product->product_name,
+            'description' => $product->discription,
+            'price'=> $product->price,
             'image_url' => $product->images->first()?->image_url ?? null
         ];
     });
