@@ -2,14 +2,14 @@
 
 import Banner from '../components/home/Banner';
 import FeaturedCategories from '../components/home/FeaturedCategories';
-import TrendingProducts from '../components/home/TrendingProducts';
+import FeaturedBrands from '../components/home/FeaturedBrands';
 
 export default function Home() {
   return (
     <div>
       <Banner />
       <FeaturedCategories />
-      <TrendingProducts />
+      <FeaturedBrands />
     </div>
   );
 }
